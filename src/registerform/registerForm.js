@@ -4,13 +4,12 @@ import "./register.css";
 function RegisterForm() {
   const [name, setName] = useState("");
   const [zipcode, setZipcode] = useState("");
-  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Name: ${name}, Zip Code: ${zipcode}, Role: ${role}`);
+    console.log(`Name: ${name}, Zip Code: ${zipcode}`);
     // submit the form data to your backend API or database
   };
 
@@ -41,17 +40,6 @@ function RegisterForm() {
           <span className="highlight"></span>
           <span className="bar"></span>
           <label htmlFor="zipcode">Zip Code:</label>
-        </div>
-        <div className="group">
-          <input
-            required
-            id="role"
-            value={role}
-            onChange={(event) => setRole(event.target.value)}
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
-          <label htmlFor="role">Role:</label>
         </div>
         <div className="group">
           <input
