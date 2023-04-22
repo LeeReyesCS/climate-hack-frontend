@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { auth } from "../firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function RegisterForm() {
   const [name, setName] = useState("");
@@ -11,6 +13,13 @@ function RegisterForm() {
     event.preventDefault();
     console.log(`Name: ${name}, Zip Code: ${zipcode}, Role: ${role}`);
     // submit the form data to your backend API or database
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential)=> {
+      console.log(userCredential);
+    })
+    .catch((error)=> {
+      console.log(error);
+    })
   };
 
   return (

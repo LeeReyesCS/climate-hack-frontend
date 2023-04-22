@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { auth } from './firebase';
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 function SignInForm() {
   const [email, setEmail] = useState('');
@@ -6,8 +9,15 @@ function SignInForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Email: ${email}, Password ${password}`)
+    console.log(`email: ${email}, password: ${password}`);
     // submit the form data to your backend API or database
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential)=> {
+      console.log(userCredential);
+    })
+    .catch((error)=> {
+      console.log(error);
+    })
   };
 
   return (
