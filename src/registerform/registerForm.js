@@ -1,17 +1,9 @@
-<<<<<<< Updated upstream
-import React, { useState } from 'react';
 import { auth } from "../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import "./register.css";
-=======
 import React, { useState } from "react";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Box } from "@mui/material";
 
->>>>>>> Stashed changes
+
 
 function RegisterForm() {
   const [name, setName] = useState("");
@@ -39,6 +31,7 @@ function RegisterForm() {
   };
 
   return (
+    <>
       <div className="flexit">
     <form onSubmit={handleSubmit}>
         <div className="group">
@@ -75,7 +68,6 @@ function RegisterForm() {
           />
           <span className="highlight"></span>
           <span className="bar"></span>
-<<<<<<< Updated upstream
           <label htmlFor="email">Email</label>
         </div>
         <div className="group">
@@ -90,7 +82,6 @@ function RegisterForm() {
           <label htmlFor="password">Password:</label>
         </div>
         <button className="submit" type="submit">Submit</button>
-=======
             <label htmlFor="zipcode">Zip Code:</label>
             <input
               required
@@ -99,19 +90,6 @@ function RegisterForm() {
               value={zipcode}
               onChange={(event) => setZipcode(event.target.value)}
             />
-         
-      </div>
-      {/* <div>
-      <span className="highlight"></span>
-          <span className="bar"></span>
-            <label htmlFor="role">Role:</label>
-            <input
-              required
-              id="role"
-              value={role}
-              onChange={(event) => setRole(event.target.value)}
-            />
-      </div> */}
       <div>
       <span className="highlight"></span>
           <span className="bar"></span>
@@ -133,33 +111,13 @@ function RegisterForm() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-
-      <div>
-      <span className="highlight"></span>
-          <span className="bar"></span>
-          <Box sx={{ minWidth: 120 }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-simple-select-label">Role</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={role}
-          label=""
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>User</MenuItem>
-          <MenuItem value={20}>PickerUpper</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-        </div>
             <button type="submit">Submit</button>
           
         
       </div>
->>>>>>> Stashed changes
     </form>
   </div>
+  </>
   );
 }
 
