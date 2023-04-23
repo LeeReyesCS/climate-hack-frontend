@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../navBar';
+import NewOrderForm from '../newOrder/newOrderForm';
 
 
 function SelectOrders() {
@@ -101,6 +102,7 @@ function SelectOrders() {
           ))}
         </tbody>
       </table>
+      <NewOrderForm />
     </>
   );
 }
