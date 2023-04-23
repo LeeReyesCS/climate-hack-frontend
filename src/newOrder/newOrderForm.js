@@ -42,12 +42,33 @@ function NewOrderForm() {
           <label htmlFor="name">Name:</label>
           <input 
             type="text" 
-            id="name" 
+            id="name"
+            name= "name"
             value={name} 
             onChange={(event) => onInputChange(event)}
           /> 
           <span className="highlight"></span>
           <span className="bar"></span>
+        </div>
+        <div className="group">
+          <label htmlFor="zipcode">Zipcode:</label>
+          <input 
+            type="text" 
+            id="zipcode"
+            name= "zipcode" 
+            value={zipcode} 
+            onChange={(event) => onInputChange(event)}
+          />
+        </div>
+        <div className="group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text" 
+            id="email" 
+            name="email"
+            value={email}
+            onChange={(event) => onInputChange(event)}
+          />
         </div>
         <h3> Types of Recyclables:</h3>
         <div className="group">
@@ -55,6 +76,7 @@ function NewOrderForm() {
           <input 
             type="text" 
             id="cans" 
+            name="cans"
             value={cans} 
             onChange={(event) => onInputChange(event)}
           />
@@ -64,6 +86,7 @@ function NewOrderForm() {
           <input 
             type="text" 
             id="glass" 
+            name="glass"
             value={glass} 
             onChange={(event) => onInputChange(event)}
           />
@@ -73,7 +96,8 @@ function NewOrderForm() {
           <input
             type="text" 
             id="plastic" 
-            value={plastic} // fixed variable name
+            name="plastic"
+            value={plastic} 
             onChange={(event) => onInputChange(event)}
           />
         </div>
