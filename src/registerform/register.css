@@ -2,6 +2,10 @@
     position:relative; 
     margin-bottom:45px; 
 }
+
+h1 {
+  text-align: center;
+}
 .flexit{ 
         width:600px; 
         justify-content: center;

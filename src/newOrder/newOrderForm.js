@@ -36,7 +36,8 @@ function NewOrderForm() {
       const data = response.data;
       setOrder(data);
       console.log(data); // fixed variable name
-      alert(" submitted!");
+      alert(" submitted!")
+      window.location.reload(false); // Reload the page
     } catch (error) {
       console.error(error);
       alert("Error submitting the form!");

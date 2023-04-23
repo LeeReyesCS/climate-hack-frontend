@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { auth} from "firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -17,15 +18,19 @@ function RegisterForm() {
   
     try {
       createUserWithEmailAndPassword(auth, email, password);
+      <Link to="/"></Link>;
       
     } catch (error) {
       console.error(error);
+      <Link to="/registerform"></Link>;
     }
   };
 
   
 
   return (
+    <div>
+      <h1>Register</h1>
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name:</label>
       <input type="text" id="name" value={name} onChange={(event) => setName(event.target.value)} />
@@ -45,6 +50,7 @@ function RegisterForm() {
     
       <button type="submit">Submit</button>
     </form>
+    </div>
   );
 }
 

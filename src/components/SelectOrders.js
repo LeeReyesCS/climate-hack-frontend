@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../navBar/navBar';
 import NewOrderForm from '../newOrder/newOrderForm';
 import { Button } from '@mui/material';
-
+import OptimizedRoute from './OptimizedRoute';
+import './SelectOrders.css'
 function SelectOrders() {
   const [data, setData] = useState([]);
+  const [selectedData, setSelectedData] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
 
   useEffect(() => {
     fetch('http://localhost:5000/recycler')
@@ -13,132 +17,11 @@ function SelectOrders() {
       .catch(error => console.error(error));
   }, []);
 
-  function handleDeleteSelected() {
-    const coordinates = formatLatAndLong(91790);
-    const optimizedOrder = nearestNeighbor(coordinates);
-    console.log("This is the optimized Order:", optimizedOrder);
-    const selectedIds = data.filter(item => item.selected).map(item => item.id);
-  
-    // Fetch the data for all the selected ids
-    const fetchData = Promise.all(selectedIds.map(id => {
-      return fetch(`http://localhost:5000/recycler/${id}`)
-        .then(response => console.log(response.json()))
-        .catch(error => console.error(error));
-    }));
-  
-    // Once all the data has been fetched, sort it in the optimized order
-    fetchData.then(results => {
-      const sortedData = optimizedOrder.map(id => {
-        return results.find(item => item.id === id);
-      });
-  
-      // Delete the selected items from the server
-      // Promise.all(selectedIds.map(id => {
-      //   const selectedCoord = coordinates.find(coord => coord.id === id).coords;
-      //   return fetch(`http://localhost:5000/recycler/${id}`, {
-      //     method: 'DELETE',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({ id, coordinates: selectedCoord }),
-      //   })
-      //     .then(response => {
-      //       if (!response.ok) {
-      //         console.error(`Failed to delete item ${id}.`);
-      //       }
-      //     })
-      //     .catch(error => console.error(error));
-      // }))
-      //   .then(() => {
-      //     // Update the data in the state to remove the deleted items and show the remaining ones
-      //     setData(data.filter(item => !item.selected));
-      //   })
-      //   .catch(error => console.error(error));
-  
-      // Output the sorted data in the console
-      console.log('Sorted Data:', sortedData);
-    });
+  function handleShowSelected() {
+    const selectedData = data.filter(item => item.selected);
+    setSelectedData(selectedData);
+    setIsPopupOpen(true);
   }
-  function formatLatAndLong(startingZip) {
-    const selectedLocations = data.filter(item => item.selected).map(item => {
-      return {
-        id: item.id,
-        coords: getLatAndLong(item.zipcode)
-      };
-    });
-    const start = {
-      id: 'startingZip',
-      coords: getLatAndLong(startingZip),
-    };
-    return [start, ...selectedLocations];
-  }
-  
-
-  function distance(coord1, coord2) {
-    const R = 6371; // Earth's radius in kilometers
-    const [lat1, lon1] = Array.isArray(coord1) ? coord1 : [0, 0];
-    const [lat2, lon2] =  Array.isArray(coord2) ? coord2 : [0, 0];
-    const dlat = degToRad(lat2 - lat1);
-    const dlon = degToRad(lon2 - lon1);
-    const a =
-      Math.sin(dlat / 2) ** 2 +
-      Math.cos(degToRad(lat1)) *
-        Math.cos(degToRad(lat2)) *
-        Math.sin(dlon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  }
-  function nearestNeighbor(coords, start = null) {
-    if (start === null) {
-      start = coords[0];
-    }
-    const tour = [start];
-    const unvisited = new Set(coords);
-    unvisited.delete(start);
-    while (unvisited.size > 0) {
-      const nearest = [...unvisited].reduce((nearestCoord, coord) => {
-        const nearestDist = distance(tour[tour.length - 1], nearestCoord);
-        const dist = distance(tour[tour.length - 1], coord);
-        return dist < nearestDist ? coord : nearestCoord;
-      }, [...unvisited][0]);
-      tour.push(nearest);
-      unvisited.delete(nearest);
-    }
-    return tour;
-  }
-  
-  function degToRad(deg) {
-    return (deg * Math.PI) / 180;
-  }
-
-  async function getLatAndLong(zipCode) {
-    const api_key = 'pk.47817fbb958b2c926dc9e683cfdc7cef'; // Replace this with your API key
-  
-    const url = `https://us1.locationiq.com/v1/search.php?key=${api_key}&q=${zipCode}&format=json`;
-    let latitude = 0;
-    let longitude = 0;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length > 0) {
-        latitude = data[0].lat;
-        longitude = data[0].lon;
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      } else {
-        console.log('No results found.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    return [latitude, longitude];
-  }
-  
-  
-  
-  
-  
-  
-  
 
   function handleCheckboxChange(event, id) {
     setData(data.map(item => {
@@ -152,11 +35,38 @@ function SelectOrders() {
     }));
   }
 
+  function handleClosePopup() {
+    // Filter out the selected data
+    const filteredData = data.filter(item => !item.selected);
+  
+    // Send a DELETE request to the API endpoint for each selected item
+    selectedData.forEach(item => {
+      fetch(`http://localhost:5000/recycler/${item.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to delete data');
+        }
+        // Update state with the filtered data and reset selectedData and isPopupOpen
+        setData(filteredData);
+        setSelectedData([]);
+        setIsPopupOpen(false);
+      })
+      .catch(error => console.error(error));
+    });
+  }
+
   return (
     <>
     <NavBar />
-      <button onClick={handleDeleteSelected}>Select and Optimize Route</button>
-      <table>
+    <div className='container'> 
+    <div className='table-container'>
+      <h1>Available Orders:</h1>
+      <table className='show-form'>
         <thead>
           <tr>
             <th>ID</th>
@@ -164,24 +74,31 @@ function SelectOrders() {
             <th>Cans</th>
             <th>Plastic</th>
             <th>Glass</th>
-            <th>Selected</th>
+            <th>Zip Code</th>
+            <th className='selected'>Selected</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
+          {data?.map(item => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.cans}</td>
               <td>{item.plastic}</td>
               <td>{item.glass}</td>
-              <td>{item.zipCode}</td>
-              <td><input type="checkbox" checked={item.selected} onChange={event => handleCheckboxChange(event, item.id)} /></td>
+              <td>{item.zipcode}</td>
+              <td><input type="checkbox" classname='check-box' checked={item.selected} onChange={event => handleCheckboxChange(event, item.id)} /></td>
             </tr>
           ))}
         </tbody>
       </table>
-      <NewOrderForm />
+      <Button variant="contained" type="submit" onClick={handleShowSelected}>Select Orders</Button>
+
+      {isPopupOpen && <OptimizedRoute data={selectedData} onClose={handleClosePopup} />}
+      </div>
+      <div className='new-order-form'><NewOrderForm /></div>
+
+      </div>
     </>
   );
 }

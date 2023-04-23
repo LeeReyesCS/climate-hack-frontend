@@ -89,11 +89,9 @@ export default function NavBar() {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
+
                       <MenuItem onClick={handleClose}>
-                        <NavLink to="/registerform"> Register </NavLink>
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <NavLink to="/signinform"> Sign In </NavLink>
+                        <NavLink to="/signinform"> Sign Out </NavLink>
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>

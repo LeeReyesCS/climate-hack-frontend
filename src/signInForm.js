@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { auth } from './firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -14,14 +15,17 @@ function SignInForm() {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential)=> {
       console.log(userCredential);
+      <Link to="/"></Link>;
     })
     .catch((error)=> {
       console.log(error);
+      <Link to="/signinform"></Link>;
     })
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Sign In</h1>
       <label 
       htmlFor="email">
       Email:

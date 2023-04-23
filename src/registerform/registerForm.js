@@ -2,6 +2,7 @@ import { auth } from "../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import "./register.css";
 import React, { useState } from "react";
+import {Button} from "@mui/material";
 
 
 
@@ -19,15 +20,19 @@ function RegisterForm() {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential)=> {
       console.log(userCredential);
+      window.location.href ="/";
     })
     .catch((error)=> {
       console.log(error);
+      
     })
   };
 
   return (
     <>
+    <h1>Register</h1>
       <div className="flexit">
+        
     <form onSubmit={handleSubmit}>
         <span className="highlight"></span>
           <span className="bar"></span>
@@ -73,6 +78,7 @@ function RegisterForm() {
           <input
             required
             id=""
+            type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
@@ -82,7 +88,7 @@ function RegisterForm() {
         </div>
 
 
-        <button className="submit" type="submit">Submit</button>
+        <Button variant="contained" type="submit">Submit</Button>
     </form>
   </div>
   </>
