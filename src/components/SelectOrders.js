@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../navBar';
+import NavBar from '../navBar/navBar';
 import NewOrderForm from '../newOrder/newOrderForm';
-
+import { Button } from '@mui/material';
 
 function SelectOrders() {
   const [data, setData] = useState([]);
@@ -83,7 +83,7 @@ function SelectOrders() {
   return (
     <>
     <NavBar />
-      <button onClick={handleDeleteSelected}>Save selected</button>
+      <Button variant="contained" onClick={handleDeleteSelected}>Save selected</Button>
       <table>
         <thead>
           <tr>

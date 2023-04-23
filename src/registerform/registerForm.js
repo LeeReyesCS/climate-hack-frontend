@@ -29,7 +29,9 @@ function RegisterForm() {
     <>
       <div className="flexit">
     <form onSubmit={handleSubmit}>
-        <div className="group">
+        <span className="highlight"></span>
+          <span className="bar"></span>
+          <div className="group">
           <input
             required
             type="text"
@@ -37,8 +39,7 @@ function RegisterForm() {
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-          <span className="highlight"></span>
-          <span className="bar"></span>
+          
           <label htmlFor="name">Name:</label>
         </div>
 
@@ -54,6 +55,7 @@ function RegisterForm() {
           <span className="bar"></span>
           <label htmlFor="zipcode">Zip Code:</label>
         </div>
+        
         <div className="group">
           <input
             required
@@ -65,6 +67,8 @@ function RegisterForm() {
           <span className="bar"></span>
           <label htmlFor="email">Email</label>
         </div>
+
+
         <div className="group">
           <input
             required
@@ -76,40 +80,9 @@ function RegisterForm() {
           <span className="bar"></span>
           <label htmlFor="password">Password:</label>
         </div>
+
+
         <button className="submit" type="submit">Submit</button>
-            <label htmlFor="zipcode">Zip Code:</label>
-            <input
-              required
-              type="zipcode"
-              id="zipcode"
-              value={zipcode}
-              onChange={(event) => setZipcode(event.target.value)}
-            />
-      <div>
-      <span className="highlight"></span>
-          <span className="bar"></span>
-            <label htmlFor="email">Email</label>
-            <input
-              required
-              id=""
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-      </div>
-      <div>
-      <span className="highlight"></span>
-          <span className="bar"></span>
-            <label htmlFor="password">Password:</label>
-            <input
-              required
-              id=""
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <button type="submit">Submit</button>
-          
-        
-      </div>
     </form>
   </div>
   </>

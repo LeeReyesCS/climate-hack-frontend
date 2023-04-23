@@ -8,9 +8,13 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
-import NewOrderForm from "./newOrder/newOrderForm";
-import RegisterForm from "./registerform/registerForm";
-import signInForm from "./signInForm";
+import MenuIcon from "@mui/icons-material/Menu";
+
+import NewOrderForm from "../newOrder/newOrderForm";
+import "./navBar.css";
+import MyImage from "./recycle.png";
+import RegisterForm from "../registerform/registerForm";
+import signInForm from "../signInForm";
 
 export default function NavBar() {
   const [open, setOpen] = React.useState(false);
@@ -59,7 +63,7 @@ export default function NavBar() {
             aria-haspopup="true"
             onClick={handleToggle}
           >
-            Recycling Cans/Bottles/Glass
+            <MenuIcon fontSize="large" />
           </Button>
           <Popper
             open={open}
@@ -90,14 +94,21 @@ export default function NavBar() {
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
                         <NavLink to="/signinform"> Sign In </NavLink>
-                        </MenuItem>
+                      </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
               </Grow>
             )}
           </Popper>
+          <div className="flex">
+            
+              <a href="/">
+                <img alt="Recycle, Dont cry" src={MyImage} />
+              </a>
+            </div>
         </div>
+          
       </Stack>
       {/* <NavLink to="/neworderform"> New Order Form </NavLink> */}
     </>
